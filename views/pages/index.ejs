@@ -11,30 +11,15 @@
                   <li data-target="#banner1" data-slide-to="2" class="active">03</li>
                </ol>
                <div class="carousel-inner">
-                  <!-- first slide -->
-                  <div class="carousel-item active">
-                     <div class="carousel-caption cuplle">
-                        <div class="container">
-                           <div class="row">
-                              <div class="col-md-8">
-                                 <div class="photog">
-                                    <h1>Care early<br>Coronavirus</h1>
-                                    <a class="read_more" href="javascript:void(0)" >Read More</a>
-                                    <a class="read_more" href="about" >About Us</a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div> 
-                  </div>
-                  <!-- second slide -->
-                  <div class="carousel-item">
+           
+                  <% TITLES.forEach(function(val, ind){ %>
+                  <div class="carousel-item  <% if (ind === active){%> active  <%}%>">
                      <div class="carousel-caption cuplle">
                         <div class="container">
                            <div class="row">
                               <div class="col-md-8">
                                 <div class="photog">
-                                    <h1>Care early<br>Coronavirus</h1>
+                                    <h1><%=val%></h1>
                                     <a class="read_more" href="javascript:void(0)" >Read More</a>
                                     <a class="read_more" href="about" >About Us</a>
                                  </div>
@@ -43,22 +28,9 @@
                         </div>
                      </div>
                   </div>
-                  <!-- third slide -->
-                  <div class="carousel-item">
-                     <div class="carousel-caption cuplle">
-                        <div class="container">
-                           <div class="row">
-                              <div class="col-md-8">
-                                <div class="photog">
-                                    <h1>Care early<br>Coronavirus</h1>
-                                    <a class="read_more" href="javascript:void(0)" >Read More</a>
-                                    <a class="read_more" href="about" >About Us</a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+                  <% }); %>
+             
+                 
                </div>
                <!-- controls -->
                <a class="carousel-control-prev" href="#banner1" role="button" data-slide="prev">
@@ -118,54 +90,36 @@
       <!-- end coronata -->
    
         <!-- protect -->
-      <div class="protect">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="titlepage text_align_center">
-                     <h2>How to Protect Yourself</h2>
-                     <p>when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using  
-                     </p>
+         <div class="protect">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="titlepage text_align_center">
+                        <h2>How to Protect Yourself</h2>
+                        <p>when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using  
+                        </p>
+                     </div>
                   </div>
                </div>
             </div>
-         </div>
            <div class="protect_bg">
          <div class="container">
              <div class="row">
                <div class="col-md-12">
                   <!--  Demos -->
                   <div class="owl-carousel owl-theme">
+                     <% CARDS.forEach( (elem, ind) => {  %>
                      <div class="item">
                         <div class="protect_box text_align_center">
                           <div class="desktop">
-                             <i><img src="images/pro1.png" alt="#"/></i>
-                           <h3> Wear Mask</h3>
-                           <span> Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for</span>
+                             <i><img src="<%=elem.img%>" alt="#"/></i>
+                           <h3><%=elem.title%></h3>
+                           <span> <%=elem.text%></span>
                           </div>
                            <a class="read_more" href="protect.html">Read More</a>
                         </div>
                      </div>
-                     <div class="item">
-                          <div class="protect_box text_align_center">
-                          <div class="desktop">
-                             <i><img src="images/pro2.png" alt="#"/></i>
-                           <h3> Wash Your Hands</h3>
-                           <span> Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for</span>
-                          </div>
-                           <a class="read_more" href="protect.html">Read More</a>
-                        </div>
-                     </div>
-                     <div class="item">
-                         <div class="protect_box text_align_center">
-                          <div class="desktop">
-                             <i><img src="images/pro3.png" alt="#"/></i>
-                           <h3> Stay at Home</h3>
-                           <span> Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for</span>
-                          </div>
-                           <a class="read_more" href="protect.html">Read More</a>
-                        </div>
-                     </div>
+                  <%}) %>
                   </div>
                </div>
             </div>
