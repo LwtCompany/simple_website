@@ -29,10 +29,78 @@ const CARDS = [
     title: "Go to doctors",
     text: " Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for"
   }
+];
+
+const CASES = [
+  {
+    case: "CASES 01",
+    text:" It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/banner.png"
+  },
+  {
+    case: "CASES 02",
+    text:" It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/cases3.png"
+  },
+  {
+    case: "CASES 03",
+    text:" It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/cases2.png"
+  },
+  {
+  case: "CASES 04",
+  text:" It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+  img: "images/cases1.png"
+  }
 ]
 
+const DOCTORS = [
+  {
+    name: "DR.GOLAP DEN",
+    text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/doctor1.png",
+  },
+  {
+    name: "DR.SARITA",
+    text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/doctor2.png",
+  },
+  {
+    name: "DR.SHOHRUBEK",
+    text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/doctor 1.png",
+  },
+  {
+    name: "DR.GOPAL SINX",
+    text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/doctor2.png",
+  }
+]
+
+const CASES_ACTION = [
+  {
+    case: "CASES 01",
+    text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/cases1.png"
+  },
+  {
+    case: "CASES 02",
+    text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/cases2.png",
+  },
+  {
+    case: "CASES 03",
+    text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look",
+    img: "images/cases3.png"
+  }
+]
+
+CONTACT_US = [
+  
+];
+CONTACT_US.fullName = document.getElementById('')
 app.get('/', function(req, res) {
-    res.render('pages/index', {MENUS, active: 0, TITLES, CARDS});
+    res.render('pages/index', {MENUS, active: 0, TITLES, CARDS, CASES, DOCTORS,});
 });     
 
   app.get("/about", function(req, res) {
@@ -40,7 +108,7 @@ app.get('/', function(req, res) {
 });
 
   app.get('/action', (req, res) => {
-    res.render('pages/action', {MENUS,active: 2});
+    res.render('pages/action', {MENUS,active: 2, CASES_ACTION,});
   });
 
   app.get('/news', (req, res) => {
