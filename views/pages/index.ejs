@@ -140,43 +140,28 @@
                </div>
             </div>
             <div class="row d_flex">
+              <% CASES.forEach((item) => {%>
                <div class=" col-md-4">
                   <div class="latest text_align_center">
-                     <figure><img src="images/cases1.png" alt="#"/></figure>
+                     <figure><img src="<%=item.img%>" alt="#"/></figure>
                       <a class="read_more" href="cases.html">Read More</a>
                      <div class="nostrud">
-                        <h3>Cases 01</h3>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
+                        <h3><%=item.case%></h3>
+                        <p><%=item.text%></p>
                      </div>
                   </div>
                </div>
-               <div class=" col-md-4">
-                  <div class="latest text_align_center">
-                     <figure><img src="images/cases2.png" alt="#"/></figure>
-                      <a class="read_more" href="cases.html">Read More</a>
-                     <div class="nostrud">
-                        <h3>Cases 02</h3>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
-                     </div>
-                  </div>
-               </div>
-               <div class=" col-md-4">
-                  <div class="latest text_align_center">
-                     <figure><img src="images/cases3.png" alt="#"/></figure>
-                      <a class="read_more" href="cases.html">Read More</a>
-                     <div class="nostrud">
-                        <h3>Cases 03</h3>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
-                     </div>
-                  </div>
-               </div>
+              <%})%>
             </div>
          </div>
       </div>
       <!-- end cases -->
          <!-- doctors -->
       <div class="doctors">
-         <div class="container">
+         <div class="contain
+         
+         
+         er">
             <div class="row">
                <div class="col-md-12">
                   <div class="titlepage text_align_center ">
@@ -185,22 +170,17 @@
                </div>
             </div>
             <div class="row d_flex">
-               <div class=" col-md-6">
+             <% DOCTORS.forEach((item) => {%>
+                 <div class=" col-md-6">
                      <div id="ho_efcet" class="reader text_align_center">
-                        <i><img src="images/doctor1.png" alt="#"/></i>
-                        <h3>Dr.Golap den</h3>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
+                        <i><img src="<%=item.img%>" alt="#"/></i>
+                        <h3><%=item.name%></h3>
+                        <p><%=item.text%></p>
                         <span><img src="images/do.png" alt="#"/></span>
                      </div>
                   </div>
-                          <div class=" col-md-6">
-                     <div id="ho_efcet" class="reader text_align_center">
-                        <i><img src="images/doctor2.png" alt="#"/></i>
-                        <h3>Dr.Golap den</h3>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look</p>
-                        <span><img src="images/do.png" alt="#"/></span>
-                     </div>
-                  </div>
+             <%})%>
+                        
                </div>
          </div>
       </div>
