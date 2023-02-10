@@ -1,24 +1,12 @@
-const errorModel = require("./Errors.model");
+const  mongoose = require ('mongoose');
+const { Schema } = mongoose;
 
-class Menus{
-    constructor(){
-        this.menus = [];
+
+const menusSchema = new Schema({
+    name: {
+        required: true,
+        type: String
     }
+});
 
-    setMenu(name){
-        if(name && typeof name === 'string'){
-            this.menus.push(name);
-            return 1;
-        }
-        errorModel.setError("Berilgan data type noturi yoki mavjed emas", "Menus.model")
-        return 0;
-          
-    }
-
-    getMenus(){
-        return this.menus;
-    }
-}
-
-module.exports = new Menus();
-
+module.exports = mongoose.model("Menus", menusSchema)
