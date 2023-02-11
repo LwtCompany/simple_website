@@ -2,9 +2,9 @@ const express = require("express");
 const route = express.Router();
 
 const {
-    getMenus
-} = require("../controllers/Menus.controller")
+    getDoctors
+} = require("../controllers/Doctors.controller");
 
-route.get("/", getMenus);
+route.get("/", getDoctors);
 
 module.exports = route;

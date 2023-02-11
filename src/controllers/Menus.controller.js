@@ -16,4 +16,4 @@ async function getMenus(req, res) {
 
 module.exports = {
     getMenus
-}
+};

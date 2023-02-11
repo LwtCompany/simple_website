@@ -3,12 +3,23 @@ const modelBlog = require("../models/Blog.model");
 
 async function getBlogs(req, res){
 	const blog = await modelBlog.find()
-	res.send(blog)
+	
+	const {id} = req.query;
+	if(id) {
+		blog.find((val) => {
+			if(val._id == id){
+				res.send(val)
+			}
+		})
+	}else  res.send(blog)
+
 }
 
 async function getBlog (req, res) {
   try {
     const blog = await modelBlog.findOne({ _id: req.params.id })
+
+	console.log(blog)
     res.send(blog);
   } catch (error) {
     res.status(404)
@@ -21,7 +32,7 @@ async function getBlog (req, res) {
   const blog = new modelBlog({
 		title: req.body.title,
 		content: req.body.content,
-    body: req.body.body
+        body: req.body.body
 	})
 	await blog.save()
 	res.send(blog)
