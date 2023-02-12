@@ -15,7 +15,7 @@ router.use("/Titles", titlesRoute);
 router.use("/Cards", cardsRoute);
 router.use("/Cases", casesRoute);
 router.use("/Doctors", doctorsRoute);
-router.use("/Cases_action", cases_actionRoute);
+router.use("/Cases_actions", cases_actionRoute);
 
 
 
