@@ -12,7 +12,7 @@ route.get("/", getBlogs);
 
 route.get("/:id", getBlog);
 
-
+    
 route.post("/", addBlog);
 
 route.patch("/:id", updateBlog)
