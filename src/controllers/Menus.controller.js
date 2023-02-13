@@ -57,8 +57,10 @@ async function updateMenu(req, res) {
 // DELETE MENU
 
 async function deleteMenu (req, res) {
-   try{ await modelMenus.deleteOne({_id: req.params.id})
-     res.status(204).send()
+   
+   try{
+        await modelMenus.deleteOne({_id: req.params.id})
+        res.status(204).send({})
       } catch {
         res.status(404).send({error: "Menu isn't defined!"})
       }

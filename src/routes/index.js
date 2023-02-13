@@ -18,6 +18,18 @@ router.use("/Doctors", doctorsRoute);
 router.use("/Cases_actions", cases_actionRoute);
 
 
+router.get("/", (req, res) => {
+  res.render("admin/index");
+})
+router.get("/card", (req, res) => {
+  res.render("admin/card");
+})
+
+const modelMenus = require("../models/Menus.model");
+router.get("/menu", async (req, res) => {
+  const menus_data = await modelMenus.find({});
+  res.render("admin/menu", {menus_data});
+})
 
 router.get("*", (req, res) => {
   res.render('pages/error');

@@ -3,7 +3,7 @@ const app = express();
 app.use(express.json());
 
 const port = 3000;
-app.use(express.static('./views/pages'))
+app.use(express.static('./views'))
 app.set('view engine', 'ejs');
 
 let MENUS = ["HOME", "ABOUT", "ACTION", "COVIDO","NEWS", "DOCTORES", "CONTACT" ];

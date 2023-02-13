@@ -4,6 +4,7 @@ const Routes = require('./routes');
 
 const mongoose = require('mongoose');
 const port = process.env.PORT || 3000;
+const cors = require("cors");
 
 const start = async () => {
     try {
@@ -12,8 +13,10 @@ const start = async () => {
             console.log("Mongodb connected mongodb://127.0.0.1:27017/test")
         });
 
+        app.use(cors());
         app.use(express.json());
         app.use(express.static('./views/pages'))
+        app.use(express.static('./views/admin'))
         app.set('view engine', 'ejs');
         app.use("/", Routes);
 
