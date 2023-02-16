@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 
 const menusSchema = new Schema({
-    menu: {
+    name: {
         required: true,
         type: String
     }

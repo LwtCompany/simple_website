@@ -1,4 +1,4 @@
-<%- include("./header.ejs", {pageName: "Menu"}); %>
+<%- include("./header.ejs", {pageName: "Doctors"}); %>
 
           <!-- Row -->
           <div class="row">
@@ -6,7 +6,7 @@
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Menu data</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Doctors data</h6>
                 </div>
                 <div class="table-responsive p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -14,6 +14,7 @@
                       <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Text</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
@@ -28,6 +29,7 @@
                       <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Text</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
@@ -38,46 +40,21 @@
                       </tr>
                     </tfoot>
                     <tbody>
-                      <% menus_data.forEach( function(elem) {  %>    
+                   
                       <tr>
-                        <td id="idMenu"><%-elem._id%></td>
-                        <td><%-elem.name%></td>
+                        <td name="idcard"></td>
+                        <td></td>
                         <td>
-                          <a href="#" onclick="deleteMenu(id)"  id="<%-elem._id%>" class="btn btn-danger">
-                            <i class="fas fa-trash"></i>
+                       
                           </a>
                         </td>
                         <td>
-                          <a href="#" class="btn btn-success"   data-toggle="modal" data-target="#exampleModal">
+                          <a href="#" class="btn btn-info">
                             <i class="fas fa-pen"></i>
-                        
-                          
-                            
                           </a>
                         </td>
                       </tr>
-                      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Update Menu</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <input class = "form-control mb-3" type="text" id="updateMenuValue" placeholder="naming">
-    </div>
-    <div class="modal-footer">
-      <button type="button"  class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-      <button onclick="updateMenu(id)" id="<%-elem._id%>" type="button"   class="btn btn-primary">Save changes</button>
-    </div>
-  </div>
-</div>
-</div>
-
-                      <% }); %>
+                      
                     </tbody>
                   </table>
                 </div>
@@ -91,25 +68,23 @@ aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalCenterTitle">Menu Create </h5>
+                  <h5 class="modal-title" id="exampleModalCenterTitle">card Create </h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <input class="form-control  mb-3" type="text" id="valueMenu" placeholder="naming">
+                  <input class="form-control  mb-3" type="text" id="valuecard" placeholder="naming">
                 </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                <button type="button" onclick="createMenu(valueMenu)" class="btn btn-primary">Save changes</button>
+                <button type="button" onclick="createcard(valuecard)" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
         </div>
-     
-        
-        <%- include("./footer.ejs"); %>
 
+        <%- include("./footer.ejs"); %>
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -120,7 +95,6 @@ aria-hidden="true">
 
   <!-- Page level custom scripts -->
   <script>
-    
     $(document).ready(function () {
       $('#dataTable').DataTable(); // ID From dataTable 
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
@@ -144,39 +118,14 @@ aria-hidden="true">
           return response.json(); // parses JSON response into native JavaScript objects
       }
     
-    function createMenu(datas){
-      postData('http://localhost:3000/menus', {  "name": datas.value })
+    function createcard(datas){
+      postData('http://localhost:3000/cards', {  "card": datas.value })
         .then((data) => {
           console.log(data); // JSON data parsed by `data.json()` call
         });
         location.reload();
     }
     
-    async function updateData(url = '', data = {}, id = "") {
-  // Default options are marked with *
-  const response = await fetch(url + "/"+id, {
-    method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
-}
-
-function updateMenu(id){
-  // console.log(name.value)
-       updateData('http://localhost:3000/menus',  {name: "name.value"}, id)
-       
-        
-          // location.reload();
-      }
       async function deleteData(url = '', id = ""){
         const response = await fetch(url + "/"+id, {
               method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
@@ -194,15 +143,15 @@ function updateMenu(id){
             return response.json(); 
       }
 
-      function deleteMenu(datas){
-        deleteData('http://localhost:3000/menus',  datas )
+      function deletecard(datas){
+        deleteData('http://localhost:3000/cards',  datas )
           .then((data) => {
             console.log(data);
           });
           location.reload();
       }
   </script>
-  <!-- Update Menu -->
+
 </body>
 
 </html>
