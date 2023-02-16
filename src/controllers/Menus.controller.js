@@ -45,8 +45,10 @@ async function addMenu (req, res) {
 async function updateMenu(req, res) {
     try {
         const menuFound = await modelMenus.findOne({_id: req.params.id})
-        console.log(menuFound)
-        if(req.body.menu) menuFound.menu = req.body.menu;
+        if(req.body.menu){
+            menuFound.menu = req.body.menu;
+            menuFound.save();
+        } 
         return res.status(200).json(menuFound)
     } catch{
         res.status(404).send({error:"Menu doesn't exist!"})
