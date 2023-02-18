@@ -15,10 +15,11 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Text</th>
+                        <th>Img</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createDoctorsValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
@@ -30,31 +31,33 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Text</th>
+                        <th>Img</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createDoctorsValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
                       </tr>
                     </tfoot>
                     <tbody>
-                   
+                   <% doctorsList.forEach( function(elem) {%>
                       <tr>
-                        <td name="idcard"></td>
-                        <td></td>
-                        <td>
-                       
-                          </a>
-                        </td>
-                        <td>
-                          <a href="#" class="btn btn-info">
-                            <i class="fas fa-pen"></i>
-                          </a>
-                        </td>
+                        <td><%-elem._id%></td>
+                        <td><%-elem.name%></td>
+                        <td><%-elem.text%></td>
+                        <td><%-elem.img%></td>
+                         
+                        
+                        <td><a href="#" onclick="deleteDoctor(id)" id="<%-elem._id%>" class="btn btn-danger">
+                          <i class="fas fa-trash"></i>
+                        </a></td>
+                        <td> <a href="#" onclick="openDoctorsUpdate(id, name)" id="<%-elem._id%>" name="<%-elem.name%>, <%-elem.text%>, <%-elem.img%>" class="btn btn-info" data-toggle="modal" data-target="#updateCardModal">
+                          <i class="fas fa-pen" ></i>
+                        </a></td>
                       </tr>
-                      
+                      <% }); %>
                     </tbody>
                   </table>
                 </div>
@@ -68,21 +71,48 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalCenterTitle">card Create </h5>
+                  <h5 class="modal-title" id="exampleModalCenterTitle">Doctors Create </h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <input class="form-control  mb-3" type="text" id="valuecard" placeholder="naming">
+                  <input class="form-control  mb-3" type="text" id="nameVal" placeholder="type name ">
+                  <input class="form-control  mb-3" type="text" id="textVal" placeholder="type text">
+                  <input class="form-control  mb-3" type="text" id="imgVal" placeholder="type img address">
                 </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                <button type="button" onclick="createcard(valuecard)" class="btn btn-primary">Save changes</button>
+                <button type="button" onclick="createDoctor(nameVal, textVal, imgVal)" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
         </div>
+
+        <div class="modal fade" id="updateCardModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Doctors Update </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input class="form-control  mb-3" type="text" id="nameValue" placeholder="type name">
+              <input class="form-control  mb-3" type="text" id="textValue" placeholder="type text">
+              <input class="form-control  mb-3" type="text" id="imgValue" placeholder="type img address">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="button" onclick="updateDoctors()" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        
 
         <%- include("./footer.ejs"); %>
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -117,15 +147,76 @@
           });
           return response.json(); // parses JSON response into native JavaScript objects
       }
+
+      function createDoctorsValueNull() {
+     inpValName = document.getElementById("nameVal") 
+     inpValText = document.getElementById("textVal") 
+     inpValImg = document.getElementById("imgVal") 
+     inpValName.value = "";
+     inpValText.value = "";
+     inpValImg.value = "";
+    }
+
     
-    function createcard(datas){
-      postData('http://localhost:3000/cards', {  "card": datas.value })
+    function createDoctor(name, text, img){
+      postData('http://localhost:3000/doctors', {  "name": name.value, "text": text.value, "img": img.value })
+      
         .then((data) => {
-          console.log(data); // JSON data parsed by `data.json()` call
-        });
-        location.reload();
+          console.log(data);
+           // JSON data parsed by `data.json()` call
+           location.reload();
+          });
+        
+     
     }
     
+    async function updateData(url = '', data = {}, id) {
+          // Default options are marked with *
+          const response = await fetch(url + "/" +id, {
+            method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+          });
+          return response.json(); // parses JSON response into native JavaScript objects
+      }
+
+      let idDoctor, compareData;
+      let inpNameVal = document.getElementById("nameValue")
+      let inpTextVal = document.getElementById("textValue")
+      let inpImgVal = document.getElementById("imgValue")
+      
+      function openDoctorsUpdate(id, data) {
+        console.log(data)
+        data =  data.split(",");
+        inpNameVal.value = data[0];
+        inpTextVal.value = data[1];
+        inpImgVal.value = data[2];
+        idDoctor = id;
+        compareData = [inpNameVal.value, inpTextVal.value, inpImgVal.value];
+      }
+
+      function updateDoctors() {
+        if(!(compareData[0] == inpNameVal.value && compareData[1] == inpTextVal.value && compareData[2] == inpImgVal.value)) {
+          updateData("http://localhost:3000/doctors", {
+            "name": inpNameVal.value,
+            "text": inpTextVal.value,
+            "img": inpImgVal.value
+          }, idDoctor)
+          .then((data) => {
+            location.reload();
+          });
+        }
+        
+      }
+
       async function deleteData(url = '', id = ""){
         const response = await fetch(url + "/"+id, {
               method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
@@ -140,14 +231,12 @@
               referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
               // body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-            return response.json(); 
+            
       }
 
-      function deletecard(datas){
-        deleteData('http://localhost:3000/cards',  datas )
-          .then((data) => {
-            console.log(data);
-          });
+      function deleteDoctor(id){
+        deleteData('http://localhost:3000/doctors',  id )
+          
           location.reload();
       }
   </script>

@@ -17,7 +17,7 @@
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createMenuValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
@@ -31,7 +31,7 @@
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createMenuValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
@@ -48,7 +48,7 @@
                           </a>
                         </td>
                         <td>
-                          <a href="#" class="btn btn-success"   data-toggle="modal" data-target="#exampleModal">
+                          <a href="#" class="btn btn-success"  onclick="openUpdateMenu(id, name)" name = "<%-elem.name%>" id="<%-elem._id%>" data-toggle="modal" data-target="#updateModalCenter" >
                             <i class="fas fa-pen"></i>
                         
                           
@@ -56,27 +56,7 @@
                           </a>
                         </td>
                       </tr>
-                      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Update Menu</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <input class = "form-control mb-3" type="text" id="updateMenuValue" placeholder="naming">
-    </div>
-    <div class="modal-footer">
-      <button type="button"  class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-      <button onclick="updateMenu(id)" id="<%-elem._id%>" type="button"   class="btn btn-primary">Save changes</button>
-    </div>
-  </div>
-</div>
-</div>
-
+                    
                       <% }); %>
                     </tbody>
                   </table>
@@ -107,6 +87,26 @@ aria-hidden="true">
           </div>
         </div>
      
+        <div class="modal fade" id="updateModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="updateModalCenterTitle">Menu update </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input class="form-control  mb-3" type="text" id="valueMenuUpdate" placeholder="naming">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="button" onclick="updateMenu(valueMenuUpdate)" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
         
         <%- include("./footer.ejs"); %>
 
@@ -120,7 +120,7 @@ aria-hidden="true">
 
   <!-- Page level custom scripts -->
   <script>
-    
+    let idMenu, oldName;
     $(document).ready(function () {
       $('#dataTable').DataTable(); // ID From dataTable 
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
@@ -143,7 +143,12 @@ aria-hidden="true">
           });
           return response.json(); // parses JSON response into native JavaScript objects
       }
-    
+    function createMenuValueNull() {
+     inpValMenu = document.getElementById("valueMenu") 
+     console.log(inpValMenu.value)
+     inpValMenu.value = "";
+    }
+
     function createMenu(datas){
       postData('http://localhost:3000/menus', {  "name": datas.value })
         .then((data) => {
@@ -169,13 +174,25 @@ aria-hidden="true">
   });
   return response.json(); // parses JSON response into native JavaScript objects
 }
-
-function updateMenu(id){
-  // console.log(name.value)
-       updateData('http://localhost:3000/menus',  {name: "name.value"}, id)
-       
+      
+       function openUpdateMenu(id, name) {
+        let inpValue = document.getElementById("valueMenuUpdate");
+        inpValue.value = name;
+        oldName = name;
+        idMenu = id;
         
-          // location.reload();
+      }
+
+
+      function updateMenu(datas){
+        if(!(oldName == datas.value)){
+          updateData('http://localhost:3000/menus', {"name": datas.value}, idMenu)
+          .then((data) => {
+            console.log(data);
+            location.reload();
+          });
+        }
+
       }
       async function deleteData(url = '', id = ""){
         const response = await fetch(url + "/"+id, {
@@ -193,7 +210,7 @@ function updateMenu(id){
             });
             return response.json(); 
       }
-
+    
       function deleteMenu(datas){
         deleteData('http://localhost:3000/menus',  datas )
           .then((data) => {

@@ -15,8 +15,11 @@ const {
 
   const {
     adminGetCases
-  } = require("../controllers/Cases.controller")
+  } = require("../controllers/Cases.controller");
 
+const { adminGetDoctors } = require("../controllers/Doctors.controller");
+
+const { adminGetTitles } = require("../controllers/Titles.controller");
 
 
 route.get("/", (req, res) => {
@@ -25,16 +28,7 @@ route.get("/", (req, res) => {
   
 
   
-  route.get("/title", (req, res) => {
-    res.render("admin/titles")
-  })
-  
-  route.get("/doctor", (req, res) => {
-    res.render("admin/doctors")
-  })
-  route.get("/doctor", (req, res) => {
-    res.render("admin/doctors")
-  })
+  route.get("/doctor", adminGetDoctors)
  
   route.get("/menu", adminGetMenus);
 
@@ -42,6 +36,8 @@ route.get("/", (req, res) => {
   
   route.get("/cases_action", AdminGetCases_action);
 
-  route.get("/case", adminGetCases)
+  route.get("/case", adminGetCases);
+
+  route.get("/title", adminGetTitles);
 
   module.exports = route;

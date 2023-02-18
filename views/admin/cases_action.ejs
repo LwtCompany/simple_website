@@ -18,7 +18,7 @@
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createCases_actionValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
@@ -34,7 +34,7 @@
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createCases_actionValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
@@ -48,12 +48,12 @@
                         <td><%-elem.text%></td>
                         <td><%-elem.img%></td>
                         <td>
-                          <a href="#" onclick="deleteMenu(id)"  id="<%-elem._id%>" class="btn btn-danger">
+                          <a href="#" onclick="deleteCases_action(id)"  id="<%-elem._id%>" class="btn btn-danger">
                             <i class="fas fa-trash"></i>
                           </a>
                         </td>
                         <td>
-                          <a href="#" class="btn btn-info">
+                          <a href="#" class="btn btn-info" onclick="openCases_actionUpdate(id, name)" id="<%-elem._id%>" name ="<%-elem.case%>, <%-elem.text%>, <%-elem.img%>" data-toggle="modal" data-target="#updateCasesActionModal">
                             <i class="fas fa-pen"></i>
                           </a>
                         </td>
@@ -78,16 +78,41 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <input class="form-control  mb-3" type="text" id="value" placeholder="naming">
+                  <input class="form-control  mb-3" type="text" id="valueCase" placeholder="type case num">
+                  <input class="form-control  mb-3" type="text" id="valueText" placeholder="type text">
+                  <input class="form-control  mb-3" type="text" id="valueImg" placeholder="type img address">
                 </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                <button type="button" onclick="createCasesAction(value)" class="btn btn-primary">Save changes</button>
+                <button type="button" onclick="createCases_action(valueCase, valueText, valueImg)" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
         </div>
 
+
+        <div class="modal fade" id="updateCasesActionModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Cases_action Update </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input class="form-control  mb-3" type="text" id="caseValue" placeholder="type case">
+              <input class="form-control  mb-3" type="text" id="textValue" placeholder="type text">
+              <input class="form-control  mb-3" type="text" id="imgValue" placeholder="type img address">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="button" onclick="updateCases_action()" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
         <%- include("./footer.ejs"); %>
 
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -123,13 +148,71 @@
           return response.json(); // parses JSON response into native JavaScript objects
       }
     
-    function createcard(datas){
-      postData('http://localhost:3000/cards', {  "card": datas.value })
+    function createCases_action(cases, text, img) {
+      postData('http://localhost:3000/cases_actions', {  "case": cases.value, "text": text.value, "img": img.value})
+
         .then((data) => {
           console.log(data); // JSON data parsed by `data.json()` call
+          location.reload();
         });
-        location.reload();
+        
     }
+
+    function createCases_actionValueNull() {
+     inpValCase = document.getElementById("valueCase") 
+     inpValText = document.getElementById("valueText") 
+     inpValImg = document.getElementById("valueImg") 
+     inpValCase.value = "";
+     inpValText.value = "";
+     inpValImg.value = "";
+    }
+
+    async function updateData(url = '', data = {}, id) {
+          // Default options are marked with *
+          const response = await fetch(url + "/" +id, {
+            method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+          });
+          return response.json(); // parses JSON response into native JavaScript objects
+      }
+
+      let idCases_action, compareData;
+      let inpCaseVal = document.getElementById("caseValue")
+      let inpTextVal = document.getElementById("textValue")
+      let inpImgVal = document.getElementById("imgValue")
+      
+      function openCases_actionUpdate(id, data) {
+        data = data.split(",");
+        inpCaseVal.value = data[0];
+        inpTextVal.value = data[1];
+        inpImgVal.value = data[2];
+        idCases_action = id;
+        compareData = [inpCaseVal.value, inpTextVal.value, inpImgVal.value];
+      }
+
+      function updateCases_action() {
+        if(!(compareData[0] == inpCaseVal.value && compareData[1] == inpTextVal.value && compareData[2] == inpImgVal.value)) {
+          updateData("http://localhost:3000/cases_actions", {
+            "case": inpCaseVal.value,
+            "text": inpTextVal.value,
+            "img": inpImgVal.value
+          }, idCases_action)
+          .then((data) => {
+            location.reload();
+          });
+        }
+      }
+
+
     
       async function deleteData(url = '', id = ""){
         const response = await fetch(url + "/"+id, {
@@ -148,11 +231,8 @@
             return response.json(); 
       }
 
-      function deletecard(datas){
-        deleteData('http://localhost:3000/cards',  datas )
-          .then((data) => {
-            console.log(data);
-          });
+      function deleteCases_action(id){
+        deleteData('http://localhost:3000/cases_actions', id)
           location.reload();
       }
   </script>

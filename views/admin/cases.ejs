@@ -18,7 +18,7 @@
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createCasesValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
@@ -34,7 +34,7 @@
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createCasesValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
@@ -43,16 +43,16 @@
                     <tbody>
                    <% cases_data.forEach( function(elem) {%>
                       <tr>
-                        <td name="idcard"><%-elem._id%></td>
+                        <td><%-elem._id%></td>
                         <td><%-elem.case%></td>
                         <td><%-elem.text%></td>
                         <td><%-elem.img%></td>
                         <td>
-                          <a href="#" onclick="deletecard(id)"  id="<%-elem._id%>" class="btn btn-danger">
+                          <a href="#" onclick="deleteCases(id)"  id="<%-elem._id%>" class="btn btn-danger">
                  <i class="fas fa-trash"></i></a>
                         </td>
                         <td>
-                          <a href="#" onclick="updateCard(id)" id="<%-elem._id%>" class="btn btn-info" >
+                          <a href="#" onclick="openCasesUpdate(id, name)" id="<%-elem._id%>" name="<%-elem.case%>, <%-elem.text%>, <%-elem.img%>"  class="btn btn-info" data-toggle="modal" data-target="#updateCardModal">
                             <i class="fas fa-pen"></i>
                           </a>
                           
@@ -91,6 +91,29 @@
           </div>
         </div>
 
+        <div class="modal fade" id="updateCardModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Cases Update </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input class="form-control  mb-3" type="text" id="caseValue" placeholder="type case">
+              <input class="form-control  mb-3" type="text" id="textValue" placeholder="type text">
+              <input class="form-control  mb-3" type="text" id="imgValue" placeholder="type img address">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="button" onclick="updateCases()" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
         <%- include("./footer.ejs"); %>
 
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -125,6 +148,16 @@
           });
           return response.json(); // parses JSON response into native JavaScript objects
       }
+
+    function createCasesValueNull() {
+     inpValCase = document.getElementById("valueCase") 
+     inpValText = document.getElementById("valueText") 
+     inpValImg = document.getElementById("valueImg") 
+     inpValCase.value = "";
+     inpValText.value = "";
+     inpValImg.value = "";
+    }
+      
     
     function createCase(caseNum, text, img){
       postData('http://localhost:3000/cases', {  "case": caseNum.value, "text": text.value, "img": img.value})
@@ -134,6 +167,51 @@
         location.reload();
     }
     
+    async function updateData(url = '', data = {}, id) {
+          // Default options are marked with *
+          const response = await fetch(url + "/" +id, {
+            method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+          });
+          return response.json(); // parses JSON response into native JavaScript objects
+      }
+      let inpCaseVal = document.getElementById("caseValue")
+      let inpTextVal = document.getElementById("textValue")
+      let inpImgVal = document.getElementById("imgValue")
+      
+let idCases, compareData;
+   function openCasesUpdate(id, data) {
+    data = data.split(",")
+    inpCaseVal.value = data[0];
+    inpTextVal.value = data[1];
+    inpImgVal.value = data[2];
+    idCases = id;
+    compareData = [inpCaseVal.value, inpTextVal.value, inpImgVal.value]
+
+   }
+   
+   function updateCases() {
+    if(!(compareData[0] == inpCaseVal.value && compareData[1] == inpTextVal.value && compareData[2] == inpImgVal.value)) {
+    updateData("http://localhost:3000/cases", {
+      "case": inpCaseVal.value,
+      "text": inpTextVal.value,
+      "img": inpImgVal.value
+    }, idCases)
+   .then
+   location.reload()
+   }
+  }
+
+
       async function deleteData(url = '', id = ""){
         const response = await fetch(url + "/"+id, {
               method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
@@ -151,12 +229,10 @@
             return response.json(); 
       }
 
-      function deletecard(datas){
-        deleteData('http://localhost:3000/cases',  datas )
-          .then((data) => {
-            console.log(data);
-          });
-          location.reload();
+
+      function deleteCases(id){
+        deleteData('http://localhost:3000/cases',  id)
+        location.reload();
       }
   </script>
 

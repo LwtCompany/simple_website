@@ -61,10 +61,17 @@ async function deleteTitle(req, res) {
         res.status(404).send({error: "Title doesn't exist"})
     }
 }
+
+// Admin get Titles
+async function adminGetTitles (req, res) {
+    const titlesList  =  await modelTitles.find({});
+    res.render("admin/titles", {titlesList});
+}
 module.exports = {
     getTitles,
     getTitle,
     addTitle,
     updateTitle,
-    deleteTitle
+    deleteTitle,
+    adminGetTitles
 };

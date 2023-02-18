@@ -12,46 +12,45 @@
                     <thead class="thead-light">
                       <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th>Words</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                          <a href="#" onclick="createTitleValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
-                      
+                    
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th>Words</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" class="btn btn-success">
+                          <a href="#" onclick="createTitleValueNull()"  class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
+                          </a>
                           </a>
                         </th>
                       </tr>
                     </tfoot>
                     <tbody>
-                   
+                   <% titlesList.forEach(function(elem) {%>
                       <tr>
-                        <td name="idcard"></td>
-                        <td></td>
+                        <td><%-elem._id%></td>
+                        <td><%-elem.words%></td>
+                        <td>  <a href="#" onclick="deleteTitle(id)"  id="<%-elem._id%>" class="btn btn-danger">
+                          <i class="fas fa-trash"></i></a>
                         <td>
-                       
-                          </a>
-                        </td>
-                        <td>
-                          <a href="#" class="btn btn-info">
+                          <a href="#" onclick="openTitlesUpdate(id, name)" id="<%-elem._id%>" name ="<%-elem.words%>" class="btn btn-info" data-toggle="modal" data-target="#updateTitlesModal">
                             <i class="fas fa-pen"></i>
                           </a>
                         </td>
                       </tr>
-                      
+                      <% }); %>
                     </tbody>
                   </table>
                 </div>
@@ -65,21 +64,44 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalCenterTitle">card Create </h5>
+                  <h5 class="modal-title" id="exampleModalCenterTitle">Title Create </h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <input class="form-control  mb-3" type="text" id="valuecard" placeholder="naming">
+                  <input class="form-control  mb-3" type="text" id="valueWords" placeholder="type words">
                 </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                <button type="button" onclick="createcard(valuecard)" class="btn btn-primary">Save changes</button>
+                <button type="button" onclick="createTitle(valueWords)" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
         </div>
+
+        
+        <div class="modal fade" id="updateTitlesModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Titles Update </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input class="form-control  mb-3" type="text" id="titleValue" placeholder="type title">
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+            <button type="button" onclick="updateTitles()" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
         <%- include("./footer.ejs"); %>
 
   <script src="vendor/jquery/jquery.min.js"></script>
@@ -115,13 +137,63 @@
           return response.json(); // parses JSON response into native JavaScript objects
       }
     
-    function createcard(datas){
-      postData('http://localhost:3000/cards', {  "card": datas.value })
+    function createTitle(datas){
+      postData('http://localhost:3000/titles', { "words": datas.value })
         .then((data) => {
           console.log(data); // JSON data parsed by `data.json()` call
+          location.reload();
         });
-        location.reload();
+        
     }
+
+    function createTitleValueNull() {
+     inpValTitle = document.getElementById("valueWords") 
+     inpValTitle.value = "";
+    }
+
+
+    async function updateData(url = '', data = {}, id) {
+          // Default options are marked with *
+          const response = await fetch(url + "/" +id, {
+            method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+          });
+          return response.json(); // parses JSON response into native JavaScript objects
+      }
+
+      let idTitle, compareData;
+      let inpTitleVal = document.getElementById("titleValue")
+
+      function openTitlesUpdate(id, data) {
+        
+        data =  data.split(",");
+        inpTitleVal.value = data[0];
+        idTitle = id;
+        compareData = [inpTitleVal.value];
+      }
+
+      function updateTitles() {
+        if(!(compareData[0] == inpTitleVal.value)) {
+          updateData("http://localhost:3000/titles", {
+            "words": inpTitleVal.value,
+          }, idTitle)
+          .then((data) => {
+            location.reload();
+          });
+        }
+        
+      }
+
+
     
       async function deleteData(url = '', id = ""){
         const response = await fetch(url + "/"+id, {
@@ -137,14 +209,11 @@
               referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
               // body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-            return response.json(); 
+            
       }
 
-      function deletecard(datas){
-        deleteData('http://localhost:3000/cards',  datas )
-          .then((data) => {
-            console.log(data);
-          });
+      function deleteTitle(id){
+        deleteData('http://localhost:3000/titles',  id )
           location.reload();
       }
   </script>

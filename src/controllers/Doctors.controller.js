@@ -60,10 +60,16 @@ async function deleteDoctor (req, res) {
     }
 }
 
+async function adminGetDoctors (req, res) {
+    const doctorsList  = await modelDoctors.find({});
+    res.render("admin/doctors", {doctorsList})
+}
+
 module.exports = {
     getDoctors,
     getDoctor,
     addDoctor,
     updateDoctor,
-    deleteDoctor
+    deleteDoctor,
+    adminGetDoctors
 };
