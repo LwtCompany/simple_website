@@ -22,7 +22,7 @@ const { adminGetDoctors } = require("../controllers/Doctors.controller");
 const { adminGetTitles } = require("../controllers/Titles.controller");
 
 
-route.get("/", (req, res) => {
+route.get("/admin", (req, res) => {
     res.render("admin/index");
   })
   

@@ -153,8 +153,9 @@
       postData('http://localhost:3000/menus', {  "name": datas.value })
         .then((data) => {
           console.log(data); // JSON data parsed by `data.json()` call
+          location.reload();
         });
-        location.reload();
+       
     }
     
     async function updateData(url = '', data = {}, id = "") {

@@ -70,7 +70,7 @@ async function deleteMenu (req, res) {
       }
     } 
 
-    //Admin panel menu
+//Admin panel menu
 
 async function adminGetMenus (req, res) {
    const menus_data = await modelMenus.find({});
@@ -83,5 +83,6 @@ module.exports = {
     addMenu,
     updateMenu,
     deleteMenu,
-    adminGetMenus
+    adminGetMenus,
+    
 };

@@ -68,12 +68,13 @@ async function AdminGetCases_action (req, res) {
    res.render("admin/cases_action", {cases_action_data});
  }
 
-
+ 
 module.exports = {
     getCases_actions,
     getCases_action,
     addCases_action,
     updateCases_action,
     deleteCases_action,
-    AdminGetCases_action
+    AdminGetCases_action,
+    
 };

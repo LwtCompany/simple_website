@@ -63,11 +63,11 @@
                               <!-- <li><a href="index" class="logo_midle">covido</a></li> -->
                               <% MENUS.forEach(function(val, indx){ %>
                                     <li>
-                                       <a <% if(val === "HOME" | val === "COVIDO"){ %>  href="/" <%} 
-                                          else%> href="<%=val%>" %>
+                                       <a <% if(val.name === "HOME" | val === "COVIDO"){ %>  href="/index" <%} 
+                                          else%> href="<%=val.name%>" %>
                                           <% if (indx === active){%>   class="active"  <%}%> 
-                                          <% if (val === "COVIDO"){%>   class="logo_midle"  <%}%> > 
-                                             <%=val %>
+                                          <% if (val.name === "COVIDO"){%>   class="logo_midle"  <%}%> > 
+                                             <%=val.name %>
                                        </a>
                                     </li>  
                               <% }); %>

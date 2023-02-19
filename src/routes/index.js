@@ -9,6 +9,8 @@ const casesRoute = require("./Cases.route");
 const doctorsRoute = require("./Doctors.route");
 const adminPanelRoute = require("./AdminPanel.route")
 const cases_actionRoute = require("./Cases_action.route");
+const indexRoute = require("./index.route");
+
 
 router.use("/blogs", blogRoute);
 router.use("/Menus", menusRoute);
@@ -18,7 +20,7 @@ router.use("/Cases", casesRoute);
 router.use("/Doctors", doctorsRoute);
 router.use("/Cases_actions", cases_actionRoute);
 router.use("/", adminPanelRoute)
-
+router.use("/", indexRoute)
 
 
 // const modelMenus = require("../models/Menus.model");

@@ -8,10 +8,11 @@ const {
     updateMenu,
     deleteMenu,
     
+    
 
 } = require("../controllers/Menus.controller")
 
-route.get("/", getMenus);
+route.get("/get", getMenus);
 route.get("/:id", getMenu)
 
 
