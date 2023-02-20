@@ -57,10 +57,19 @@ async function deleteCase (req, res) {
         res.send({error: "Case doesn't exist!"})
     }
 }
+
+// Admin cases
+
+async function adminGetCases (req, res) {
+    const cases_data = await modelCases.find({});
+    res.render("admin/cases", {cases_data})
+}
+
 module.exports = {
     getCases,
     getCase,
     addCase,
     updateCase,
-    deleteCase
+    deleteCase,
+    adminGetCases
 };

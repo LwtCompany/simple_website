@@ -1,59 +1,51 @@
-<%- include('./header.ejs', {pageName:" Card"}); %>
+<%- include("./header.ejs", {pageName: "Titles"}); %>
           <!-- Row -->
           <div class="row">
 
             <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Card data</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Titles data</h6>
                 </div>
                 <div class="table-responsive p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
                         <th>Id</th>
-                        <th>Img</th>
-                        <th>Title</th>
-                        <th>Text</th>
+                        <th>Words</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" onclick="createCardValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter1">
+                          <a href="#" onclick="createTitleValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
                           </a>
                         </th>
-                      
+                    
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
                         <th>Id</th>
-                        <th>Img</th>
-                        <th>Title</th>
-                        <th>Text</th>
+                        <th>Words</th>
                         <th>Delete</th>
                         <th>Update</th>
                         <th>
-                          <a href="#" onclick="createCardValueNull()" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter1">
+                          <a href="#" onclick="createTitleValueNull()"  class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                             <i class="fas fa-solid fa-plus"></i>
+                          </a>
                           </a>
                         </th>
                       </tr>
                     </tfoot>
                     <tbody>
-                   <% cards_data.forEach( function(elem) { %>
+                   <% titlesList.forEach(function(elem) {%>
                       <tr>
                         <td><%-elem._id%></td>
-                        <td id="imgV"><%=elem.img%></td>
-                        <td id="titleV"><%=elem.title%></td>
-                        <td id="textV"><%=elem.text%></td>
+                        <td><%-elem.words%></td>
+                        <td>  <a href="#" onclick="deleteTitle(id)"  id="<%-elem._id%>" class="btn btn-danger">
+                          <i class="fas fa-trash"></i></a>
                         <td>
-                          <a href="#" onclick="deleteCard(id)"  id="<%-elem._id%>" class="btn btn-danger">
-                            <i class="fas fa-trash"></i>
-                          </a>
-                        </td>
-                        <td>
-                          <a href="#" onclick="openUpdateCard(id, name)"  id="<%-elem._id%>" name="<%-elem.img%>, <%-elem.title%>, <%-elem.text%>"   class="btn btn-info" data-toggle="modal" data-target="#updateCardModal">
+                          <a href="#" onclick="openTitlesUpdate(id, name)" id="<%-elem._id%>" name ="<%-elem.words%>" class="btn btn-info" data-toggle="modal" data-target="#updateTitlesModal">
                             <i class="fas fa-pen"></i>
                           </a>
                         </td>
@@ -67,53 +59,51 @@
           </div>
           <!--Row-->
 
-          <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalCenterTitle">card Create </h5>
+                  <h5 class="modal-title" id="exampleModalCenterTitle">Title Create </h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  <input class="form-control  mb-3" type="text" id="valueImg" placeholder="type img address">
-                  <input class="form-control  mb-3" type="text" id="valueTitle" placeholder="type title">
-                  <input class="form-control  mb-3" type="text" id="valueText" placeholder="type text">
+                  <input class="form-control  mb-3" type="text" id="valueWords" placeholder="type words">
                 </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                <button type="button" onclick="createcard(valueImg, valueTitle, valueText )" class="btn btn-primary">Save changes</button>
+                <button type="button" onclick="createTitle(valueWords)" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
         </div>
-        <!-- Update Card -->
-        <div class="modal fade" id="updateCardModal" tabindex="-1" role="dialog"
+
+        
+        <div class="modal fade" id="updateTitlesModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Card Update </h5>
+              <h5 class="modal-title" id="exampleModalCenterTitle">Titles Update </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <input class="form-control  mb-3" type="text" id="imgValue" placeholder="type img address">
               <input class="form-control  mb-3" type="text" id="titleValue" placeholder="type title">
-              <input class="form-control  mb-3" type="text" id="textValue" placeholder="type text">
             </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-            <button type="button" onclick="updateCard()" class="btn btn-primary">Save changes</button>
+            <button type="button" onclick="updateTitles()" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
     </div>
 
         <%- include("./footer.ejs"); %>
+
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -128,7 +118,7 @@
       $('#dataTable').DataTable(); // ID From dataTable 
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
-let idCard;
+
       async function postData(url = '', data = {}) {
           // Default options are marked with *
           const response = await fetch(url, {
@@ -146,30 +136,22 @@ let idCard;
           });
           return response.json(); // parses JSON response into native JavaScript objects
       }
-
-    function createCardValueNull() {
-     inpValImg = document.getElementById("valueImg") 
-     inpValTitle = document.getElementById("valueTitle") 
-     inpValText = document.getElementById("valueText") 
-     inpValImg.value = "";
-     inpValTitle.value = "";
-     inpValText.value = "";
-    }
     
-    function createcard(img, title, text) {
-      postData('http://localhost:3000/cards',
-       {  "img": img.value,
-          "title": title.value,
-          "text": text.value
-       })
-      
+    function createTitle(datas){
+      postData('http://localhost:3000/titles', { "words": datas.value })
         .then((data) => {
           console.log(data); // JSON data parsed by `data.json()` call
           location.reload();
         });
-       
+        
     }
-    
+
+    function createTitleValueNull() {
+     inpValTitle = document.getElementById("valueWords") 
+     inpValTitle.value = "";
+    }
+
+
     async function updateData(url = '', data = {}, id) {
           // Default options are marked with *
           const response = await fetch(url + "/" +id, {
@@ -187,35 +169,32 @@ let idCard;
           });
           return response.json(); // parses JSON response into native JavaScript objects
       }
-        let inpImgVal = document.getElementById("imgValue")
-        let inpTitleVal = document.getElementById("titleValue");
-        let inpTextVal = document.getElementById("textValue");
-   
-      function openUpdateCard(id, name) {
-        data = name.split(', ');
-         
-        inpImgVal.value = data[0];
-        inpTitleVal.value = data[1];
-        inpTextVal.value = data[2];
-        idCard = id;
-      }
 
-      function updateCard() {
+      let idTitle, compareData;
+      let inpTitleVal = document.getElementById("titleValue")
+
+      function openTitlesUpdate(id, data) {
         
-        updateData('http://localhost:3000/cards', {
-          "img": inpImgVal.value,
-          "title": inpTitleVal.value,
-          "text": inpTextVal.value
-        }, idCard)
-        .then((data) => {
-          console.log(data); // JSON data parsed by `data.json()` call
-          location.reload();
-        });
-        // location.reload(); 
+        data =  data.split(",");
+        inpTitleVal.value = data[0];
+        idTitle = id;
+        compareData = [inpTitleVal.value];
+      }
+
+      function updateTitles() {
+        if(!(compareData[0] == inpTitleVal.value)) {
+          updateData("http://localhost:3000/titles", {
+            "words": inpTitleVal.value,
+          }, idTitle)
+          .then((data) => {
+            location.reload();
+          });
+        }
+        
       }
 
 
-
+    
       async function deleteData(url = '', id = ""){
         const response = await fetch(url + "/"+id, {
               method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
@@ -230,14 +209,11 @@ let idCard;
               referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
               // body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
-            return response.json(); 
+            
       }
 
-      function deleteCard(datas){
-        deleteData('http://localhost:3000/cards',  datas )
-          .then((data) => {
-            console.log(data);
-          });
+      function deleteTitle(id){
+        deleteData('http://localhost:3000/titles',  id )
           location.reload();
       }
   </script>

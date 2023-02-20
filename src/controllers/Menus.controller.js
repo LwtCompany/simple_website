@@ -31,7 +31,7 @@ try {
 async function addMenu (req, res) {
     try {
         const menu = new modelMenus({
-            menu: req.body.menu
+            name: req.body.name
         })
         await menu.save()
         res.status(200).json(menu)
@@ -45,10 +45,14 @@ async function addMenu (req, res) {
 async function updateMenu(req, res) {
     try {
         const menuFound = await modelMenus.findOne({_id: req.params.id})
-        if(req.body.menu){
-            menuFound.menu = req.body.menu;
-            menuFound.save();
-        } 
+
+        console.log(menuFound)
+        if(req.body.name){
+            menuFound.name = req.body.name;
+            menuFound.save()
+        }
+        
+
         return res.status(200).json(menuFound)
     } catch{
         res.status(404).send({error:"Menu doesn't exist!"})
@@ -68,10 +72,19 @@ async function deleteMenu (req, res) {
       }
     } 
 
+//Admin panel menu
+
+async function adminGetMenus (req, res) {
+   const menus_data = await modelMenus.find({});
+   res.render("admin/menu", {menus_data});
+}
+
 module.exports = {
     getMenus,
     getMenu,
     addMenu,
     updateMenu,
-    deleteMenu
+    deleteMenu,
+    adminGetMenus,
+    
 };

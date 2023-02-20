@@ -60,10 +60,21 @@ async function deleteCases_action (req, res) {
         res.send({error: "Cases_action doesn't!"})
     }
 }
+
+// Admin cases_action
+
+async function AdminGetCases_action (req, res) {
+    const cases_action_data = await modelCases_action.find({});
+   res.render("admin/cases_action", {cases_action_data});
+ }
+
+ 
 module.exports = {
     getCases_actions,
     getCases_action,
     addCases_action,
     updateCases_action,
-    deleteCases_action
+    deleteCases_action,
+    AdminGetCases_action,
+    
 };

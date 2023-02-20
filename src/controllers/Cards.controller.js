@@ -66,10 +66,18 @@ async function deleteCard (req, res) {
     }
 }
 
+
+// Admin getCards
+
+async function adminGetCards (req, res) {
+    const cards_data = await modelCard.find({});
+    res.render("admin/card", {cards_data});
+}
 module.exports = {
     getCards,
     getCard,
     addCard,
     updateCard,
     deleteCard,
+    adminGetCards
 };

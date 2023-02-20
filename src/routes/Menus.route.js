@@ -6,12 +6,15 @@ const {
     getMenu,
     addMenu,
     updateMenu,
-    deleteMenu
+    deleteMenu,
+    
+    
 
 } = require("../controllers/Menus.controller")
 
-route.get("/", getMenus);
+route.get("/get", getMenus);
 route.get("/:id", getMenu)
+
 
 route.post("/", addMenu);
 
